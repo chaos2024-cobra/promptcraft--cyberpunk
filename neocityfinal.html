@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Veiled Cobra // Recruitment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Base styles from neocity_recruitment.html --- */
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background-color: #0c0a09; /* stone-950 */
+            color: #34d399; /* emerald-400 */
+            
+            /* Darker, overlapping scale pattern */
+            background-image: 
+                linear-gradient(rgba(12, 10, 9, 0.9), rgba(12, 10, 9, 0.95)), /* Dark overlay */
+                radial-gradient(farthest-corner at 50% 100%, rgba(4, 120, 87, 0.2) 40%, transparent 40%),
+                radial-gradient(farthest-corner at 50% 100%, rgba(4, 120, 87, 0.2) 40%, transparent 40%),
+                repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(168, 85, 247, 0.1) 7px, rgba(168, 85, 247, 0.1) 9px), /* Grid */
+                repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(52, 211, 153, 0.1) 5px, rgba(52, 211, 153, 0.1) 7px); /* Grid */
+            
+            background-size: cover, 40px 20px, 40px 20px, cover, cover;
+            background-position: center center, 0 0, 20px 10px, 0 0, 0 0;
+            
+            animation: animated-scales 40s linear infinite;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* --- Scanlines Overlay --- */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 0, 0, 0.3) 1px,
+                transparent 3px
+            );
+            animation: scan 12s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { background-position-y: 0; }
+            100% { background-position-y: 100px; }
+        }
+
+        /* --- Animation for new background scales --- */
+        @keyframes animated-scales {
+            0% {
+                background-position: center center, 0 0, 20px 10px, 0 0, 0 0;
+            }
+            100% {
+                background-position: center center, 40px 20px, 0px 0px, 0 0, 0 0;
+            }
+        }
+
+        /* --- Glitch Effect for Header (from neocity) --- */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+            color: #f0fdfa; /* cyan-50 */
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 5px #f0fdfa, 0 0 10px #34d399, 0 0 20px #a855f7;
+            z-index: 20; /* Base text z-index */
+        }
+        
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        
+        .glitch::before {
+            left: 3px;
+            text-shadow: -3px 0 #a855f7; /* purple-500 */
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            animation: glitch-anim 4s infinite linear alternate-reverse;
+            z-index: 25; /* Top glitch layer (ABOVE snake) */
+        }
+        
+        .glitch::after {
+            left: -3px;
+            text-shadow: 3px 0 #34d399, -1px 1px #a855f7; /* emerald-400 */
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            z-index: 15; /* Bottom glitch layer (BELOW snake) */
+        }
+
+        @keyframes glitch-anim {
+            0% { clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%); }
+            25% { clip-path: polygon(0 40%, 100% 40%, 100% 55%, 0 55%); }
+            50% { clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%); }
+            75% { clip-path: polygon(0 80%, 100% 80%, 100% 95%, 0 95%); }
+            100% { clip-path: polygon(0 50%, 100% 50%, 100% 65%, 0 65%); }
+        }
+        
+        @keyframes glitch-anim-2 {
+            0% { clip-path: polygon(0 70%, 100% 70%, 100% 85%, 0 85%); }
+            25% { clip-path: polygon(0 10%, 100% 10%, 100% 25%, 0 25%); }
+            50% { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); }
+            75% { clip-path: polygon(0 30%, 100% 30%, 100% 45%, 0 45%); }
+            100% { clip-path: polygon(0 90%, 100% 90%, 100% 100%, 0 100%); }
+        }
+        
+        @keyframes glitch-skew {
+            0% { transform: skewX(0); }
+            100% { transform: skewX(-1deg); }
+        }
+        
+        /* --- Slithering Snake SVG (from neocity) --- */
+        #slithering-snake-container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 150px; /* Viewbox height */
+            transform: translateY(-50%);
+            z-index: 22; /* Between text (20) and top glitch (25) */
+            overflow: visible;
+            pointer-events: none;
+        }
+
+        #snake-path {
+            fill: none;
+            stroke: url(#snake-gradient); /* <-- Using gradient for stroke */
+            stroke-width: 8; /* <-- Thicker */
+            stroke-linecap: round; /* <-- Rounded ends */
+            filter: url(#snake-glow);
+            
+            /* 400px snake, 2100px gap (path is ~2500px long) */
+            stroke-dasharray: 400 2100; 
+            stroke-dashoffset: 2500; /* Start off-screen */
+            animation: slither 18s linear infinite; /* <-- Slower animation */
+        }
+
+        @keyframes slither {
+            from {
+                stroke-dashoffset: 2500; /* Starts off-screen to the right */
+            }
+            to {
+                stroke-dashoffset: -2500; /* Ends off-screen to the left */
+            }
+        }
+
+
+        /* --- Custom Form/Button/Modal Styles (from trial2.html) --- */
+        .cyber-input, .cyber-select, .cyber-textarea, .cyber-file-button {
+            background-color: rgba(17, 24, 39, 0.7);
+            border: 1px solid #34d399;
+            color: #f0fdfa;
+            padding: 0.75rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-family: 'Chakra Petch', sans-serif;
+            appearance: none;
+        }
+
+        .cyber-input:focus, .cyber-select:focus, .cyber-textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
+        }
+
+        .cyber-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%2334d399' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1em;
+        }
+
+        .cyber-file-label {
+            display: block;
+            background-color: rgba(17, 24, 39, 0.7);
+            border: 1px solid #34d399;
+            color: #f0fdfa;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cyber-file-label:hover {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
+            color: #a855f7;
+        }
+
+        .cyber-button {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: #0c0a09;
+            background-color: #34d399;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.7), transparent);
+            transition: left 0.4s ease;
+        }
+
+        .cyber-button:hover {
+            background-color: #a855f7;
+            color: #f0fdfa;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+
+        .cyber-button-secondary {
+            background: transparent;
+            border: 1px solid #34d399;
+            color: #34d399;
+        }
+        .cyber-button-secondary:hover {
+            background: #34d399;
+            color: #0c0a09;
+            box-shadow: 0 0 20px rgba(52, 211, 153, 1);
+        }
+        
+        /* Disabled Button Style (from trial2) */
+        .cyber-button[disabled], .cyber-button[disabled]:hover {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background-color: transparent; 
+            border: 1px solid #34d399;
+            color: #34d399; 
+            box-shadow: none;
+            transform: none;
+        }
+        .cyber-button[disabled]::before {
+            left: -100%;
+        }
+
+        /* Quiz Choices Button Style (from trial2) */
+        .quiz-choice-btn {
+            background-color: rgba(52, 211, 153, 0.1);
+            border: 1px solid #34d399;
+            color: #f0fdfa;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Chakra Petch', sans-serif;
+            text-align: left;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .quiz-choice-btn:hover {
+            background-color: #34d399;
+            color: #0c0a09;
+            border-color: #a855f7;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.7);
+        }
+        
+        /* Modal Styles (from trial2) */
+        .cyber-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+        }
+        .cyber-modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(12, 10, 9, 0.9);
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.8);
+            z-index: 10001;
+        }
+
+        /* Fade Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in forwards;
+        }
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        
+        /* --- Edge Scales Vignette (from neocity) --- */
+        body::before,
+        body::after,
+        #vignette-top,
+        #vignette-bottom {
+            content: '';
+            position: fixed;
+            z-index: 1; 
+            pointer-events: none;
+            
+            background-image:
+              radial-gradient(farthest-corner at 50% 100%, rgba(16, 185, 129, 0.4) 40%, transparent 40%),
+              radial-gradient(farthest-corner at 50% 100%, rgba(16, 185, 129, 0.4) 40%, transparent 40%);
+            background-size: 40px 20px;
+            background-position: 0 0, 20px 10px;
+            
+            animation: pulse-glow 3s ease-in-out infinite alternate;
+        }
+
+        body::before { /* Left */
+            left: 0; top: 0; bottom: 0;
+            width: 150px;
+            mask-image: linear-gradient(to right, black 40%, transparent 100%);
+        }
+
+        body::after { /* Right */
+            right: 0; top: 0; bottom: 0;
+            width: 150px;
+            mask-image: linear-gradient(to left, black 40%, transparent 100%);
+        }
+
+        #vignette-top { /* Top */
+            top: 0; left: 0; right: 0;
+            height: 100px;
+            mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+        }
+
+        #vignette-bottom { /* Bottom */
+            bottom: 0; left: 0; right: 0;
+            height: 100px;
+            mask-image: linear-gradient(to top, black 30%, transparent 100%);
+        }
+
+        @keyframes pulse-glow {
+            from {
+                opacity: 0.15;
+                filter: drop-shadow(0 0 4px #34d399); 
+            }
+            to {
+                opacity: 0.5;
+                filter: drop-shadow(0 0 10px #34d399);
+            }
+        }
+
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <audio id="bg-music-player" loop>
+        <source src="C:\Users\karth\Downloads\The Rebel Path.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="scanlines"></div>
+    <div id="vignette-top"></div>
+    <div id="vignette-bottom"></div>
+
+    <div id="intro-section" class="min-h-screen flex flex-col items-center justify-center text-center p-4 relative z-20">
+        
+        <div class="relative w-full flex items-center justify-center">
+            
+            <svg id="slithering-snake-container" viewBox="0 0 1800 150" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <filter id="snake-glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                        <feMerge>
+                            <feMergeNode in="blur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                        </feMerge>
+                    </filter>
+                    
+                    <linearGradient id="snake-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#34d399" stop-opacity="1" /> <stop offset="50%" stop-color="#047857" stop-opacity="1" /> <stop offset="100%" stop-color="#34d399" stop-opacity="1" /> </linearGradient>
+                </defs>
+                
+                <path id="snake-path" d="M -100, 75 C 200, -50, 600, 200, 900, 75 C 1200, -50, 1600, 200, 1900, 75" fill="none"></path>
+            </svg>
+            <h1 class="glitch font-orbitron text-5xl md:text-7xl font-black uppercase" data-text="THE VEILED COBRA">THE VEILED COBRA</h1>
+        </div>
+
+        <p class="text-purple-400 text-lg md:text-xl mt-2">We strike from the shadows. One bite.</p>
+        <p class="text-emerald-200 text-lg mt-12 max-w-2xl">
+            This is our recruitment terminal. If you're preem, you know what to do. If you're a gonk, flatline.
+        </p>
+        <button id="enter-hub-btn" class="cyber-button text-xl md:text-2xl mt-12 py-3 px-6 md:py-4 md:px-8 hover:animate-pulse">
+            [ Access Terminal ]
+        </button>
+    </div>
+
+    <div id="auth-section" class="container mx-auto p-4 min-h-screen hidden flex-col items-center justify-center relative z-10">
+        
+        <button id="auth-back-btn" class="absolute top-6 left-6 z-50 font-orbitron text-sm md:text-base cyber-button cyber-button-secondary py-1 px-3">[ &lt; DISCONNECT ]</button>
+
+        <header class="w-full max-w-5xl text-center py-8">
+            <h1 class="glitch font-orbitron text-4xl md:text-6xl font-black uppercase" data-text="SECURE TERMINAL">SECURE TERMINAL</h1>
+            <p class="text-purple-400 text-lg md:text-xl mt-2">Pass-phrase required. Authentication is logged.</p>
+        </header>
+
+        <main class="w-full max-w-lg bg-black/50 backdrop-blur-md border-2 border-emerald-400/50 shadow-2xl shadow-emerald-400/30 p-6 md:p-10">
+            <form id="auth-form" class="space-y-6">
+                <div>
+                    <label for="pass-phrase" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Pass-Phrase</label>
+                    <input type="password" id="pass-phrase" name="pass-phrase" class="cyber-input" placeholder="Enter security key..." required>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" class="cyber-button w-full text-lg">
+                        [ Authenticate ]
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <div id="main-hub" class="container mx-auto p-4 min-h-screen hidden flex-col items-center justify-center relative z-10">
+        
+        <button id="back-to-intro-btn" class="absolute top-6 left-6 z-50 font-orbitron text-sm md:text-base cyber-button cyber-button-secondary py-1 px-3">[ &lt; DISCONNECT ]</button>
+
+        <header class="w-full max-w-5xl text-center py-8">
+            <h1 class="glitch font-orbitron text-4xl md:text-6xl font-black uppercase" data-text="RECRUITMENT HUB">RECRUITMENT HUB</h1>
+            <p class="text-purple-400 text-lg md:text-xl mt-2">Shed your skin. Prove your worth.</p>
+        </header>
+
+        <nav class="w-full max-w-5xl bg-black/30 backdrop-blur-sm border border-emerald-400 p-2 flex justify-center space-x-2 shadow-lg shadow-emerald-400/20 mb-8">
+            <button id="trials-btn" class="cyber-button cyber-button-secondary w-full sm:w-auto">Run Trials</button>
+            <button id="join-us-btn" class="cyber-button cyber-button-secondary w-full sm:w-auto" disabled>Apply Form</button>
+            <button id="status-btn" class="cyber-button cyber-button-secondary w-full sm:w-auto">Check Status</button>
+        </nav>
+
+        <main class="w-full max-w-5xl bg-black/50 backdrop-blur-md border-2 border-emerald-400/50 shadow-2xl shadow-emerald-400/30 p-6 md:p-10">
+
+            <section id="join-us-section" class="hidden">
+                <h2 class="font-orbitron text-3xl md:text-4xl text-purple-400 uppercase font-bold tracking-wider" style="text-shadow: 0 0 10px #a855f7;">Prove Your Worth // Data Input</h2>
+                <p class="mt-4 mb-8 text-lg text-emerald-200">
+                    NeoCity's a snake pit. You either bite, or get constricted. The Veiled Cobra is looking for silent strikers to take what's ours.
+                    Think you've got the chrome? Think you can run the net? Show us. Don't be a gonk.
+                </p>
+
+                <form id="application-form" class="space-y-6">
+                    <div>
+                        <label for="handle" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Handle (Street Name)</label>
+                        <input type="text" id="handle" name="handle" class="cyber-input" placeholder="e.g., 'Static' or 'Chrome-Eye'" required>
+                    </div>
+
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Desired Role</label>
+                        <select id="role" name="role" class="cyber-select" required>
+                            <option value="" disabled selected>-- Select your specialization --</option>
+                            <option value="solo">Solo (Street Samurai / Muscle)</option>
+                            <option value="netrunner">Netrunner (Console Jockey / Hacker)</option>
+                            <option value="techie">Techie (Engineer / 'Slinger)</option>
+                            <option value="fixer">Fixer (Info Broker / Biz)</option>
+                        </select>
+                        <p id="role-suggestion" class="text-xs text-yellow-400 mt-2 hidden"></p>
+                    </div>
+
+                    <div>
+                        <label for="creds" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Your Cred (The Pitch)</label>
+                        <textarea id="creds" name="creds" rows="5" class="cyber-textarea" placeholder="What makes you stand out? What's your story? Why should we trust you with our chrome?" required></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Proof of Worthiness (Data Shard)</label>
+                        <input type="file" id="proof-file" class="hidden" accept=".pdf,.txt,.jpg,.png,.zip">
+                        <label for="proof-file" id="file-label" class="cyber-file-label">Click to Upload Data Shard</label>
+                        <p id="file-name" class="text-sm text-gray-400 mt-2"></p>
+                    </div>
+
+                    <div>
+                        <label for="comms" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Secure Comms Channel</label>
+                        <input type="text" id="comms" name="comms" class="cyber-input" placeholder="Your encrypted contact ID" required>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="cyber-button w-full text-lg hover:animate-pulse">
+                            Jack In
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="trials-section" class="hidden">
+                <h2 class="font-orbitron text-3xl md:text-4xl text-purple-400 uppercase font-bold tracking-wider" style="text-shadow: 0 0 10px #a855f7;">// SYSTEM TRIAL // VITAL STATS</h2>
+                <p class="mt-4 mb-8 text-lg text-emerald-200">
+                    Your mental matrix is now under evaluation. Choose your path wisely. Your tactical alignment determines your future within The Cobra.
+                </p>
+
+                <div id="quiz-content">
+                    </div>
+                
+                <div id="role-assignment-result" class="hidden mt-8 p-6 border border-purple-500 bg-black/50">
+                    <h3 class="font-orbitron text-3xl uppercase text-green-400" style="text-shadow: 0 0 10px #34d399;">ASSIGNMENT COMPLETE</h3>
+                    <p class="text-lg mt-4 text-purple-400">Your core specialization is determined:</p>
+                    <p id="assigned-role" class="font-orbitron text-4xl text-emerald-400 font-bold mt-2 tracking-widest" style="text-shadow: 0 0 15px #34d399;"></p>
+                    <p id="role-description" class="text-base mt-4 text-emerald-200"></p>
+                    <button id="back-to-form-btn" class="cyber-button w-full mt-6">Proceed to Application</button>
+                </div>
+            </section>
+
+
+            <section id="status-section" class="hidden">
+                <h2 class="font-orbitron text-3xl md:text-4xl text-purple-400 uppercase font-bold tracking-wider" style="text-shadow: 0 0 10px #a855f7;">Query Application Status</h2>
+                <p class="mt-4 mb-8 text-lg text-emerald-200">
+                    Slammed in your application ID. We don't like to be kept waiting, and neither should you.
+                </p>
+                
+                <form id="status-form" class="space-y-6">
+                    <div>
+                        <label for="app-id" class="block text-sm font-medium text-purple-400 uppercase tracking-widest mb-2">Application ID</label>
+                        <input type="text" id="app-id" name="app-id" class="cyber-input" placeholder="e.g., VC-A9C4F1" required>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="cyber-button w-full text-lg">
+                            Query
+                        </button>
+                    </div>
+                </form>
+
+                <div id="status-result" class="mt-8 p-6 border border-purple-500 hidden bg-black/50">
+                    <h3 id="status-title" class="font-orbitron text-2xl uppercase"></h3>
+                    <p id="status-message" class="text-lg mt-2"></p>
+                </div>
+
+            </section>
+
+        </main>
+        
+        <footer class="w-full max-w-5xl text-center py-8 mt-4 text-emerald-600">
+            <p>&copy; 2077 // THE VEILED COBRA INTRANET // DON'T BE A GONK</p>
+        </footer>
+    </div>
+
+    <div id="modal" class="cyber-modal-overlay hidden justify-center items-center">
+        <div class="cyber-modal-content w-11/12 max-w-lg p-8 space-y-6">
+            <h3 id="modal-title" class="font-orbitron text-3xl text-purple-400 uppercase" style="text-shadow: 0 0 10px #a855f7;"></h3>
+            <p id="modal-message" class="text-lg text-emerald-200"></p>
+            <button id="modal-close-btn" class="cyber-button w-full">Got It</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- New State Flag ---
+            let trialsCompleted = false;
+
+            // --- Application State and Data ---
+            
+            const sessionApplications = []; 
+            const applicationDatabase = [
+                { id: 'VC-A1B2C3', status: 'ACCEPTED', role: 'SHADOW STALKER', message: "You're in, choom. Welcome to The Veiled Cobra. A fixer will contact you on your secure channel within 3 hours with your first gig. Don't flatline." },
+                { id: 'VC-F4I1L0', status: 'REJECTED', role: 'GONK', message: "Not preem enough. You're a gonk. Your data was corrupted... or maybe just zeroed. Don't try again until you've got more chrome." },
+                { id: 'VC-999999', status: 'ACCEPTED', role: 'CYBER WRAITH', message: "Access granted. Your skills in the net are valued. A secure package containing your first assignment is en route." },
+                { id: 'VC-111111', status: 'REJECTED', role: 'ENFORCER', message: "Your profile shows recklessness, not tactical strength. We seek precision. Try another crew, gonk." },
+                { id: 'VC-D34DB3', status: 'PENDING', role: 'N/A', message: "Still slicing through the data. We're busy. Don't call us, we'll call you. Patience, or you'll be zeroed before you even start." }
+            ];
+
+            // --- Elements ---
+            const introSection = document.getElementById('intro-section');
+            const authSection = document.getElementById('auth-section'); 
+            const mainHub = document.getElementById('main-hub');
+            
+            const enterHubBtn = document.getElementById('enter-hub-btn');
+            const authBackBtn = document.getElementById('auth-back-btn'); 
+            const backToIntroBtn = document.getElementById('back-to-intro-btn'); 
+            
+            const authForm = document.getElementById('auth-form'); 
+            const passPhraseInput = document.getElementById('pass-phrase'); 
+
+            const joinUsSection = document.getElementById('join-us-section');
+            const trialsSection = document.getElementById('trials-section');
+            const statusSection = document.getElementById('status-section');
+
+            const joinUsBtn = document.getElementById('join-us-btn');
+            const trialsBtn = document.getElementById('trials-btn');
+            const statusBtn = document.getElementById('status-btn');
+            
+            const quizContent = document.getElementById('quiz-content');
+            const assignmentResult = document.getElementById('role-assignment-result');
+            const assignedRoleDisplay = document.getElementById('assigned-role');
+            const roleDescriptionDisplay = document.getElementById('role-description');
+            const roleSelect = document.getElementById('role');
+            const roleSuggestionDisplay = document.getElementById('role-suggestion');
+
+            const backToFormBtn = document.getElementById('back-to-form-btn');
+
+
+            // --- Quiz State and Data ---
+            let currentQuestionIndex = 0;
+            let score = {
+                'Ghost': 0, 
+                'Glitcher': 0, 
+                'Enforcer': 0
+            };
+
+            const questions = [
+                {
+                    id: 1,
+                    text: "A rival gang's data-drop location is vulnerable. What is your primary objective?",
+                    choices: [
+                        { text: "Infiltrate silently, extract data, leave no trace.", score: { 'Ghost': 2 } },
+                        { text: "Flood their network, corrupt their intel, cause maximum digital chaos.", score: { 'Glitcher': 2 } },
+                        { text: "Ambush their courier, secure the physical drive by force.", score: { 'Enforcer': 2 } }
+                    ]
+                },
+                {
+                    id: 2,
+                    text: "You're cornered in a dark alley. Three hostiles. Your comms are jammed. What's your move?",
+                    choices: [
+                        { text: "Find a shadow, disappear into the urban maze.", score: { 'Ghost': 2 } },
+                        { text: "Overload nearby streetlights, blind them with a power surge.", score: { 'Glitcher': 2 } },
+                        { text: "Engage. Subdue them swiftly and brutally.", score: { 'Enforcer': 2 } }
+                    ]
+                },
+                {
+                    id: 3,
+                    text: "A corporate exec is flaunting restricted tech. How do you acquire it?",
+                    choices: [
+                        { text: "Disguise yourself as their security, walk in, and walk out with it.", score: { 'Ghost': 2 } },
+                        { text: "Remotely access their personal network, download the schematics, or brick the device.", score: { 'Glitcher': 2 } },
+                        { text: "Stage a public 'accident,' create a diversion, seize the opportunity.", score: { 'Enforcer': 2 } }
+                    ]
+                },
+                {
+                    id: 4,
+                    text: "What motivates you most in NeoCity's underworld?",
+                    choices: [
+                        { text: "The thrill of being unseen, outwitting the system.", score: { 'Ghost': 1 } },
+                        { text: "The power to manipulate data, to control the flow of information.", score: { 'Glitcher': 1 } },
+                        { text: "The raw strength to carve out your own territory, to enforce your will.", score: { 'Enforcer': 1 } }
+                    ]
+                },
+                {
+                    id: 5,
+                    text: "A fellow Cobra member is captured. What's your priority?",
+                    choices: [
+                        { text: "Gather intelligence on their location and security, then plan a covert extraction.", score: { 'Ghost': 2 } },
+                        { text: "Hack into the detention facility, disable their cameras and locks, create a digital escape route.", score: { 'Glitcher': 2 } },
+                        { text: "Lead a direct assault on the facility, overwhelming their defenses.", score: { 'Enforcer': 2 } }
+                    ]
+                }
+            ];
+
+            const roles = {
+                'Ghost': "SHADOW STALKER", 
+                'Glitcher': "CYBER WRAITH", 
+                'Enforcer': "STREET SAMURAI"
+            };
+            
+            const roleToFormValue = {
+                "SHADOW STALKER": "solo",
+                "CYBER WRAITH": "netrunner",
+                "STREET SAMURAI": "solo"
+            };
+
+            const roleDescriptions = {
+                "SHADOW STALKER": "You move unseen, a whisper in the wind. Infiltration, sabotage, and reconnaissance are your domain. The streets are your hunting ground, and secrets are your currency. The Veiled Cobra thrives on your **stealth and cunning**.",
+                "CYBER WRAITH": "The digital realm bends to your will. Hacking, data manipulation, and electronic warfare are your weapons. You are the architect of chaos, the phantom in the machine. The Veiled Cobra needs your **digital supremacy**.",
+                "STREET SAMURAI": "Your presence commands respect, your actions instill fear. Combat, protection, and territorial control define you. You are the iron fist of The Veiled Cobra, enforcing its will on the unforgiving streets. The Veiled Cobra demands your **raw strength**."
+            }
+
+
+            // --- Utility Functions ---
+            function typeWriter(element, text, speed = 50) {
+                let i = 0;
+                element.textContent = '';
+                return new Promise(resolve => {
+                    function type() {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        } else {
+                            resolve();
+                        }
+                    }
+                    type();
+                });
+            }
+
+            // --- Helper function to fade any section back to the intro ---
+            function fadeToIntro(sectionToHide) {
+                sectionToHide.classList.remove('fade-in');
+                sectionToHide.classList.add('fade-out');
+                
+                sectionToHide.addEventListener('animationend', () => {
+                    sectionToHide.classList.add('hidden');
+                    sectionToHide.classList.remove('flex', 'fade-out'); 
+                    
+                    introSection.classList.remove('hidden', 'fade-out'); 
+                    introSection.classList.add('fade-in'); 
+                }, { once: true });
+            }
+            
+            // --- NEW: Fullscreen Request Function ---
+            function openFullscreen() {
+              const elem = document.documentElement; // Get the whole HTML document
+              if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => {
+                    // Log a warning if it fails, but don't block the user
+                    console.warn(`Fullscreen request failed: ${err.message}`);
+                });
+              } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+              } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+              } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+              }
+            }
+
+            // --- Intro Logic (MODIFIED) ---
+            enterHubBtn.addEventListener('click', () => {
+                
+                // --- NEW: Request Fullscreen ---
+                openFullscreen();
+
+                // --- MODIFIED FOR MUSIC (MP3) ---
+                const musicPlayer = document.getElementById('bg-music-player');
+                
+                if (musicPlayer && musicPlayer.paused) {
+                    musicPlayer.play();
+                }
+                // --- END MUSIC MODIFICATION ---
+
+                introSection.classList.add('fade-out');
+                
+                introSection.addEventListener('animationend', () => {
+                    introSection.classList.add('hidden');
+                    authSection.classList.remove('hidden'); // <-- Show AUTH section
+                    authSection.classList.add('flex', 'fade-in'); 
+                }, { once: true }); 
+            });
+
+            // --- Back to Intro Logic (MODIFIED) ---
+            backToIntroBtn.addEventListener('click', () => {
+                fadeToIntro(mainHub); // Use helper function
+            });
+            
+            // --- NEW: Auth Back Button Logic ---
+            authBackBtn.addEventListener('click', () => {
+                fadeToIntro(authSection); // Use helper function
+            });
+            
+            // --- NEW: Auth Form Submit Logic ---
+            authForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pass = passPhraseInput.value;
+                
+                if (pass === "CobraKai") {
+                    // Success: Fade from Auth to Main Hub
+                    authSection.classList.remove('fade-in');
+                    authSection.classList.add('fade-out');
+                    
+                    authSection.addEventListener('animationend', () => {
+                        authSection.classList.add('hidden');
+                        authSection.classList.remove('flex', 'fade-out'); 
+                        
+                        mainHub.classList.remove('hidden'); 
+                        mainHub.classList.add('flex', 'fade-in'); 
+                    }, { once: true });
+                    
+                    passPhraseInput.value = ''; // Clear password
+
+                } else {
+                    // Failure: Show modal and fade to Intro
+                    showModal("ACCESS DENIED", "Invalid pass-phrase. System purging your access attempt. Flatline, gonk.");
+                    passPhraseInput.value = ''; // Clear password
+                    
+                    // After modal is shown, go back to intro
+                    fadeToIntro(authSection);
+                }
+            });
+
+
+            // --- Section Navigation (from trial2) ---
+            function showSection(sectionId) {
+                joinUsSection.classList.add('hidden');
+                trialsSection.classList.add('hidden');
+                statusSection.classList.add('hidden');
+                
+                // Reset button states
+                joinUsBtn.classList.add('cyber-button-secondary');
+                trialsBtn.classList.add('cyber-button-secondary');
+                statusBtn.classList.add('cyber-button-secondary');
+
+                if (sectionId === 'join-us') {
+                    if (!trialsCompleted) {
+                        showModal('ACCESS DENIED', "You must complete the **// SYSTEM TRIAL //** first. Prove your core specialization before you apply.");
+                        trialsBtn.classList.remove('cyber-button-secondary');
+                        return; 
+                    }
+                    joinUsSection.classList.remove('hidden');
+                    joinUsBtn.classList.remove('cyber-button-secondary');
+                } else if (sectionId === 'trials') {
+                    trialsSection.classList.remove('hidden');
+                    trialsBtn.classList.remove('cyber-button-secondary');
+                    if (currentQuestionIndex === 0 || currentQuestionIndex >= questions.length && !trialsCompleted) {
+                        currentQuestionIndex = 0; 
+                        score = { 'Ghost': 0, 'Glitcher': 0, 'Enforcer': 0 };
+                        loadQuestion();
+                    }
+                } else if (sectionId === 'status') {
+                    statusSection.classList.remove('hidden');
+                    statusBtn.classList.remove('cyber-button-secondary');
+                }
+            }
+
+            joinUsBtn.addEventListener('click', () => showSection('join-us'));
+            trialsBtn.addEventListener('click', () => showSection('trials'));
+            statusBtn.addEventListener('click', () => showSection('status'));
+
+            // Set initial state to Trials
+            showSection('trials');
+            
+            backToFormBtn.addEventListener('click', () => showSection('join-us'));
+
+
+            // --- Quiz Functions ---
+            function loadQuestion() {
+                assignmentResult.classList.add('hidden');
+                quizContent.classList.remove('hidden');
+
+                if (currentQuestionIndex < questions.length) {
+                    const q = questions[currentQuestionIndex];
+                    let html = `<h3 class="font-orbitron text-xl md:text-2xl text-emerald-400 uppercase tracking-wider mb-6">
+                                [ Trial ${currentQuestionIndex + 1} of ${questions.length} ]
+                                </h3>
+                                <p class="text-lg mb-6">${q.text}</p>
+                                <div class="space-y-4">`;
+
+                    q.choices.forEach((choice, index) => {
+                        html += `<button class="quiz-choice-btn" data-choice-index="${index}">${choice.text}</button>`;
+                    });
+                    
+                    html += `</div>`;
+                    quizContent.innerHTML = html;
+
+                    quizContent.querySelectorAll('.quiz-choice-btn').forEach(button => {
+                        button.onclick = handleChoice;
+                    });
+                } else {
+                    assignRole();
+                }
+            }
+
+            function handleChoice(event) {
+                const choiceIndex = parseInt(event.target.dataset.choiceIndex); 
+                
+                const question = questions[currentQuestionIndex];
+                const selectedChoice = question.choices[choiceIndex];
+
+                // Apply score
+                for (const roleType in selectedChoice.score) {
+                    if (score.hasOwnProperty(roleType)) {
+                        score[roleType] += selectedChoice.score[roleType];
+                    }
+                }
+
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+
+            function assignRole() {
+                let maxScore = -1;
+                let assignedRoleType = '';
+                
+                // Find the role with the maximum score
+                for (const roleType in score) {
+                    if (score[roleType] > maxScore) {
+                        maxScore = score[roleType];
+                        assignedRoleType = roleType;
+                    } else if (score[roleType] === maxScore) {
+                        if (assignedRoleType === 'Ghost' && roleType === 'Glitcher') {
+                            assignedRoleType = 'Glitcher';
+                        } else if (assignedRoleType === 'Enforcer' && roleType === 'Glitcher') {
+                            assignedRoleType = 'Glitcher';
+                        }
+                    }
+                }
+                
+                const finalRole = roles[assignedRoleType] || "FREELANCER (UNCATEGORIZED)";
+                const formRoleValue = roleToFormValue[finalRole] || '';
+                const roleDesc = roleDescriptions[finalRole] || "Your profile is complex. Report for a secondary, in-person evaluation.";
+
+                // Store the result in local storage
+                if (formRoleValue) {
+                    localStorage.setItem('suggestedRoleValue', formRoleValue); 
+                    localStorage.setItem('suggestedRoleName', finalRole);
+                }
+
+                // Display result section
+                quizContent.classList.add('hidden');
+                assignmentResult.classList.remove('hidden');
+
+                // Animate the role text
+                typeWriter(assignedRoleDisplay, finalRole, 100)
+                    .then(() => {
+                        roleDescriptionDisplay.textContent = roleDesc;
+                        
+                        // --- ENFORCEMENT LOGIC ---
+                        trialsCompleted = true;
+                        joinUsBtn.removeAttribute('disabled');
+                        updateSuggestedRoleInForm();
+
+                        setTimeout(() => {
+                             showSection('join-us');
+                        }, 2000); 
+                    });
+            }
+            
+            function updateSuggestedRoleInForm() {
+                const suggestedRoleValue = localStorage.getItem('suggestedRoleValue');
+                const suggestedRoleName = localStorage.getItem('suggestedRoleName');
+                
+                if (suggestedRoleValue && suggestedRoleName) {
+                    if (Array.from(roleSelect.options).some(option => option.value === suggestedRoleValue)) {
+                        roleSelect.value = suggestedRoleValue;
+                        roleSuggestionDisplay.textContent = `SYSTEM RECOMMENDATION: Your trial suggests you are a ${suggestedRoleName}. This role is now pre-selected.`;
+                        roleSuggestionDisplay.classList.remove('hidden');
+                    }
+                } else {
+                    roleSuggestionDisplay.classList.add('hidden');
+                }
+            }
+            
+            if (localStorage.getItem('suggestedRoleName')) {
+                trialsCompleted = true;
+                joinUsBtn.removeAttribute('disabled');
+                updateSuggestedRoleInForm();
+            }
+
+
+            // --- Custom Modal Logic ---
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+
+            function showModal(title, message) {
+                modalTitle.textContent = title;
+                modalMessage.innerHTML = message; 
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            modalCloseBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            });
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+            });
+
+            // --- Custom File Input Label ---
+            const fileInput = document.getElementById('proof-file');
+            const fileLabel = document.getElementById('file-label');
+            const fileNameDisplay = document.getElementById('file-name');
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    fileLabel.textContent = `File: ${fileName}`;
+                    fileNameDisplay.textContent = `Selected: ${fileName}`;
+                    fileLabel.style.borderColor = '#a855f7'; 
+                } else {
+                    fileLabel.textContent = 'Click to Upload Data Shard';
+                    fileNameDisplay.textContent = '';
+                    fileLabel.style.borderColor = '#34d399'; 
+                }
+            });
+
+
+            // --- Application Form Logic ---
+            const appForm = document.getElementById('application-form');
+            appForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const randomId = 'VC-' + Math.random().toString(16).substring(2, 8).toUpperCase();
+                const handle = document.getElementById('handle').value;
+                const roleSelected = roleSelect.value;
+                const suggestedRoleName = localStorage.getItem('suggestedRoleName') || roleSelected.toUpperCase(); 
+
+                const outcome = Math.random();
+                let finalStatus, finalMessage;
+
+                if (outcome < 0.2) { 
+                    finalStatus = 'ACCEPTED';
+                    finalMessage = `Your data stream was flawless. You are preem. Your immediate acceptance bypasses the standard queue. A fixer will contact you on your secure channel within 3 hours with your first gig. Don't flatline.`;
+                } else if (outcome < 0.4) {
+                    finalStatus = 'REJECTED';
+                    finalMessage = `Not preem enough. You're a gonk. Your data was corrupted... or maybe just zeroed. Your application was permanently discarded.`;
+                } else { 
+                    finalStatus = 'PENDING';
+                    finalMessage = `Your application is currently undergoing system diagnostics and manual review for your chosen role: ${roleSelected.toUpperCase()}. This process takes approximately 24 hours.`;
+                }
+
+                sessionApplications.push({
+                    id: randomId,
+                    status: finalStatus,
+                    role: roleSelected.toUpperCase(),
+                    message: finalMessage
+                });
+
+
+                let modalMsg = `Thanks, <span class='text-purple-400 font-bold'>${handle}</span>. Your application is in the pipe. <br><br> Your Application ID is: <br><strong class='text-2xl text-yellow-300 font-orbitron'>${randomId}</strong><br>`;
+                
+                if (suggestedRoleName) {
+                    modalMsg += `<br>System notes your core strength as a <span class='text-emerald-400 font-orbitron'>${suggestedRoleName}</span>. This data was logged with your application.`;
+                }
+                
+                modalMsg += `<br><br>Keep it safe, choom. Check your status in 24h. Don't lose this ID, we don't do retrievals.`;
+
+                showModal('Data Shard Received', modalMsg);
+
+                localStorage.removeItem('suggestedRoleValue');
+                localStorage.removeItem('suggestedRoleName');
+                trialsCompleted = false;
+                joinUsBtn.setAttribute('disabled', 'true');
+
+                
+                appForm.reset();
+                fileLabel.textContent = 'Click to Upload Data Shard';
+                fileNameDisplay.textContent = '';
+                fileLabel.style.borderColor = '#34d399';
+                currentQuestionIndex = 0;
+                score = { 'Ghost': 0, 'Glitcher': 0, 'Enforcer': 0 };
+                assignmentResult.classList.add('hidden');
+                assignedRoleDisplay.textContent = ''; 
+                roleSuggestionDisplay.classList.add('hidden');
+            });
+
+
+            // --- Status Check Logic ---
+            const statusForm = document.getElementById('status-form');
+            const statusResult = document.getElementById('status-result');
+            const statusTitle = document.getElementById('status-title');
+            const statusMessage = document.getElementById('status-message');
+
+            statusForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const appId = document.getElementById('app-id').value.trim();
+                
+                statusResult.classList.remove('hidden');
+                statusTitle.textContent = 'Querying the Net...';
+                statusTitle.className = 'font-orbitron text-2xl uppercase text-yellow-300';
+                statusMessage.textContent = 'Slicing through firewalls. Stand by...';
+
+                setTimeout(() => {
+                    let title, message, titleClass;
+                    const normalizedAppId = appId.toUpperCase();
+
+                    let application = sessionApplications.find(app => app.id === normalizedAppId);
+                    
+                    if (!application) {
+                         application = applicationDatabase.find(app => app.id === normalizedAppId);
+                    }
+
+                    if (application) {
+                        const status = application.status.toUpperCase();
+                        
+                        if (status === 'ACCEPTED') {
+                            title = 'STATUS: // ACCEPTED';
+                            titleClass = 'font-orbitron text-2xl uppercase text-green-400';
+                            message = application.message + `<br><br>Assigned Role: <span class='text-2xl text-emerald-400 font-orbitron'>${application.role}</span>`;
+                        } else if (status === 'REJECTED') {
+                            title = 'STATUS: // REJECTED';
+                            titleClass = 'font-orbitron text-2xl uppercase text-red-500';
+                            message = application.message;
+                        } else { // PENDING
+                            title = 'STATUS: // PENDING';
+                            titleClass = 'font-orbitron text-2xl uppercase text-yellow-300';
+                            message = application.message + (application.role !== 'N/A' ? `<br><br>Target Role: <span class='text-2xl text-purple-400 font-orbitron'>${application.role}</span>` : '');
+                        }
+
+                    } else if (normalizedAppId.startsWith('VC-')) {
+                        title = 'STATUS: // USER NOT FOUND';
+                        titleClass = 'font-orbitron text-2xl uppercase text-red-500';
+                        message = "Error: Application ID not found in the active database. The ID may be invalid, or the application was zeroed. Contact a Fixer if you believe this is an error.";
+                        
+                    } else {
+                        title = 'STATUS: // INVALID ID FORMAT';
+                        titleClass = 'font-orbitron text-2xl uppercase text-orange-400';
+                        message = "That ID is static noise. Input an ID starting with 'VC-' or get lost. Don't waste our time with junk data.";
+                    }
+
+                    statusTitle.textContent = title;
+                    statusTitle.className = titleClass;
+                    statusMessage.innerHTML = message;
+                    
+                }, 1500); 
+            });
+        });
+    </script>
+</body>
+</html>
