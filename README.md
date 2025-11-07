@@ -1,2 +1,2 @@
 # promptcraft--cyberpunk
-The Veiled Cobra is a cyberpunk recruitment portal built with HTML, Tailwind CSS, and JavaScript. Users explore NeoCity’s neon underworld, complete interactive trials, and are dynamically assigned a gang role based on their choices. Fully front-end, immersive, and self-contained — no backend required.
+The Veiled Cobra is a cyberpunk recruitment portal built with HTML, Tailwind CSS, and JavaScript. Users explore NeoCity’s neon underworld, complete interactive trials, and are dynamically assigned a gang role based on their choices. Fully front-end, immersive, and self-contained — no backend required.This is a HTML file, so there is no prerequisite required. Simply, you just need a text editor and run it.
