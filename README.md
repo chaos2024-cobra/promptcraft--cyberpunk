@@ -4,6 +4,6 @@ The Veiled Cobra is a cyberpunk recruitment portal built with HTML, Tailwind CSS
 
 **Edit: Since the code was executed locally with no server/external dependancies, the audio track was read off the C drive locally on our laptops. Due to this, there is one line of the source code which needs to be edited. 
 
-<source src="C:\Users\karth\Downloads\The Rebel Path.mp3" type="audio/mpeg">
+source src="C:\Users\karth\Downloads\The Rebel Path.mp3" type="audio/mpeg"
 
 After downloading the audio track from the Drive link, please copy the path to the file on your device and replace the above path.
